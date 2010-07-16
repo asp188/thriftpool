@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project basedir="." default="hello" name="thriftpool">
+    <property environment="env"/>
+    <property name="basedir" value="."/>
+    <property name="test.resources" value="${basedir}/src/test/resources"/>
+    <property name="interface.file" value="${basedir}/src/test/resources/test.thrift"/>
+    <property name="interface.out" value="${basedir}/src/test"/>
+
+    <target name="hello">
+        <echo>${interface.file}</echo>
+    </target>
+
+    <target name="gen-thrift">
+        <echo>Generating Thrift Java code from ${interface.file}</echo>
+        <exec executable="thrift" dir="${test.resources}">
+            <arg line="--gen java"/>
+            <arg line="-o ${interface.out}"/>
+            <arg line="${interface.file}"/>
+        </exec>
+    </target>
+</project>
