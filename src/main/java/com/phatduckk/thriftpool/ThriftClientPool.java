@@ -12,6 +12,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * User: Arin Sarkissian
@@ -21,22 +22,27 @@ import java.util.Collection;
 
 public class ThriftClientPool extends GenericObjectPool {
     public static final boolean DEFAULT_TEST_ON_BORROW = false;
+    private static final int DEFAULT_TIMEOUT = 250;
 
     public ThriftClientPool(PoolableObjectFactory objFactory) {
         super(objFactory);
-        setupClientOptions();
+        setPoolOptions();
     }
 
     public ThriftClientPool(PoolableObjectFactory factory, Config config) {
         super(factory, config);
     }
 
-    protected void setupClientOptions() {
+    public void setPoolOptions() {
         this.setMaxIdle(DEFAULT_MAX_IDLE);
         this.setMaxActive(DEFAULT_MAX_ACTIVE);
         this.setMinEvictableIdleTimeMillis(DEFAULT_MIN_EVICTABLE_IDLE_TIME_MILLIS);
         this.setTestOnBorrow(DEFAULT_TEST_ON_BORROW);
         this.setMaxWait(DEFAULT_MAX_WAIT);
+    }
+
+    public void setPoolConfig(Config config) {
+        this.setConfig(config);
     }
 
     public WrappedClient borrowObject() throws Exception {
@@ -59,41 +65,41 @@ public class ThriftClientPool extends GenericObjectPool {
         super.returnObject(obj);
     }
 
-    public static ThriftClientPool factory(Class cls, Collection<HostPort> hostPorts, boolean useFramed) {
-        ThriftClientPoolFactory tpf = new ThriftClientPoolFactory(cls, hostPorts, useFramed);
+    public static ThriftClientPool factory(ThriftClientOptions thriftClientOptions, Config poolConfig) {
+        ThriftClientPoolFactory tpf = new ThriftClientPoolFactory(thriftClientOptions);
+        return new ThriftClientPool(tpf, poolConfig);
+    }
+
+    public static ThriftClientPool factory(ThriftClientOptions thriftClientOptions) {
+        ThriftClientPoolFactory tpf = new ThriftClientPoolFactory(thriftClientOptions);
         return new ThriftClientPool(tpf);
     }
-
-    public static ThriftClientPool factory(Class cls, Collection<HostPort> hostPorts) {
-        return factory(cls, hostPorts, true);
-    }
-
-    public static ThriftClientPool factory(Class cls, HostPort hostPort, boolean useFramed) {
-        ArrayList list = new ArrayList();
-        list.add(hostPort);
-        return factory(cls, list, useFramed);
-    }
-
-    public static ThriftClientPool factory(Class cls, HostPort hostPort) {
-        return factory(cls, hostPort, false);
-    }
-
 }
 
 class ThriftClientPoolFactory implements PoolableObjectFactory {
     protected Class cls;
     protected Collection<HostPort> hostPorts;
     protected boolean isFramedTransport = false;
+    protected int timeout = 0;
 
-    ThriftClientPoolFactory(Class cls, Collection<HostPort> hostPorts) {
+    ThriftClientPoolFactory(Class cls, Collection<HostPort> hostPorts, int timeout) {
         this.cls = cls;
         this.hostPorts = hostPorts;
+        this.timeout = timeout;
     }
 
-    ThriftClientPoolFactory(Class cls, Collection<HostPort> hostPorts, boolean isFramedTransport) {
+    ThriftClientPoolFactory(Class cls, Collection<HostPort> hostPorts, boolean isFramedTransport, int timeout) {
         this.cls = cls;
         this.hostPorts = hostPorts;
         this.isFramedTransport = isFramedTransport;
+        this.timeout = timeout;
+    }
+
+    ThriftClientPoolFactory(ThriftClientOptions thriftClientOptions) {
+        this.cls = thriftClientOptions.getThriftClientClass();
+        this.hostPorts = thriftClientOptions.getHostPorts();
+        this.isFramedTransport = thriftClientOptions.isUseFramed();
+        this.timeout = thriftClientOptions.getTimeout();
     }
 
     protected Object createClient(Class cls, String host, int port) throws ClientDoesNotExistException {

@@ -1,7 +1,5 @@
 package com.phatduckk.thriftpool;
 
-import static org.junit.Assert.*;
-
 import com.phatduckk.thriftpool.testhelper.testthrift.HelperService;
 import com.phatduckk.thriftpool.testhelper.testthrift.TestService;
 import com.phatduckk.thriftpool.testhelper.testthrift.User;
@@ -9,7 +7,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 /**
  * User: arin
@@ -33,10 +31,14 @@ public class ThriftClientPoolTest {
 
     @Test
     public void testBasic() throws Exception {
-        // get a pool ready
+        // where's the thrift server at???
         HostPort hp = new HostPort("localhost", HelperService.PORT);
+
         // factory() is overloaded a few way - check it out for other options...
-        ThriftClientPool pool = ThriftClientPool.factory(TestService.Client.class, hp);
+        ThriftClientOptions options = new ThriftClientOptions();
+        options.setThriftClientClass(TestService.Client.class);
+        options.addHostPort(hp);
+        ThriftClientPool pool = ThriftClientPool.factory(options);
 
         // get a client from the pool (they're wrapped in a WrappedClient object
         WrappedClient wrappedClient = pool.borrowObject();
