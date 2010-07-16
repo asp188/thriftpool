@@ -17,6 +17,7 @@ public class HelperService {
     private TSimpleServer server;
     public static final int PORT = 2222;
     public static final String HOST_NAME = "0.0.0.0";
+    public static final String HOST_PUBLIC = "localhost";
 
     public HelperService() throws TTransportException {
         TServerSocket tServerSocket = new TServerSocket(new InetSocketAddress(HOST_NAME, PORT));

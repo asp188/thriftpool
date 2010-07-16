@@ -32,7 +32,7 @@ public class ThriftClientPoolTest {
     @Test
     public void testBasic() throws Exception {
         // where's the thrift server at???
-        HostPort hp = new HostPort("localhost", HelperService.PORT);
+        HostPort hp = new HostPort(HelperService.HOST_PUBLIC, HelperService.PORT);
 
         // factory() is overloaded a few way - check it out for other options...
         ThriftClientOptions options = new ThriftClientOptions();
