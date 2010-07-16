@@ -1,7 +1,7 @@
-namespace java com.phatduckk.thriftpool.thriftpool.testing
+namespace java com.phatduckk.thriftpool.testing
 
 /***********************************
- * A bogus thrift file for com.phatduckk.thriftpool.thriftpool.testing
+ * A bogus thrift file for com.phatduckk.thriftpool.testing
  ***********************************/
 
 /***********************************

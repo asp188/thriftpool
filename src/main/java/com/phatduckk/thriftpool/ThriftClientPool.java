@@ -1,4 +1,4 @@
-package com.phatduckk.thriftpool.thriftpool;
+package com.phatduckk.thriftpool;
 
 import org.apache.commons.pool.PoolableObjectFactory;
 import org.apache.commons.pool.impl.GenericObjectPool;
@@ -54,7 +54,7 @@ public class ThriftClientPool extends GenericObjectPool {
         getInputProtocol.invoke(thriftClient);
         TProtocol inputProtocol = (TProtocol) getInputProtocol.invoke(thriftClient);
         inputProtocol.getTransport().close();
-        
+
         ((WrappedClient) obj).free();
         super.returnObject(obj);
     }

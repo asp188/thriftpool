@@ -3,7 +3,7 @@
  *
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  */
-package com.phatduckk.thriftpool.thriftpool.testhelper.testthrift;
+package com.phatduckk.thriftpool.testhelper.testthrift;
 
 import java.util.List;
 import java.util.ArrayList;

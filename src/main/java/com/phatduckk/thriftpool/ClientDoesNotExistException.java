@@ -1,4 +1,4 @@
-package com.phatduckk.thriftpool.thriftpool;
+package com.phatduckk.thriftpool;
 
 /**
  * User: Arin Sarkissian

@@ -1,10 +1,10 @@
-package com.phatduckk.thriftpool.thriftpool;
+package com.phatduckk.thriftpool;
 
 import static org.junit.Assert.*;
 
-import com.phatduckk.thriftpool.thriftpool.testhelper.testthrift.HelperService;
-import com.phatduckk.thriftpool.thriftpool.testhelper.testthrift.TestService;
-import com.phatduckk.thriftpool.thriftpool.testhelper.testthrift.User;
+import com.phatduckk.thriftpool.testhelper.testthrift.HelperService;
+import com.phatduckk.thriftpool.testhelper.testthrift.TestService;
+import com.phatduckk.thriftpool.testhelper.testthrift.User;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;

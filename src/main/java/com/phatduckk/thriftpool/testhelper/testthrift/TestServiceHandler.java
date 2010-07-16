@@ -1,4 +1,4 @@
-package com.phatduckk.thriftpool.thriftpool.testhelper.testthrift;
+package com.phatduckk.thriftpool.testhelper.testthrift;
 
 import org.apache.thrift.TException;
 
